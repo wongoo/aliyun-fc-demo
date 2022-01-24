@@ -59,5 +59,5 @@ func main() {
 		fmt.Printf("Invoke function LogResult %s \n", logResult)
 	}
 
-	fmt.Printf("result: %s\n",invokeOutput.Payload)
+	fmt.Printf("result: %s\n", invokeOutput.Payload)
 }
