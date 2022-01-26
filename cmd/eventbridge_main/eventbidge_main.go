@@ -19,21 +19,24 @@ package main
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 
 	"github.com/aliyun/fc-runtime-go-sdk/fc"
 )
 
-// http触发器: https://help.aliyun.com/document_detail/74769.html
-// 服务地址: https://help.aliyun.com/document_detail/52984.html
-// http request address: <account_id>.<region>.fc.aliyuncs.com/<version>/proxy/<serviceName>/<functionName>/[action?queries]
 func main() {
-	fc.StartHttp(HandleHttpRequest)
+	fc.Start(eventHandler)
 }
 
-func HandleHttpRequest(ctx context.Context, w http.ResponseWriter, req *http.Request) error {
-	w.WriteHeader(http.StatusOK)
-	w.Header().Add("Content-Type", "text/plain")
-	w.Write([]byte("hello, world!\n"))
-	return nil
+func eventHandler(ctx context.Context, event map[string]interface{}) (string, error) {
+	fmt.Printf("context: %v\n", ctx)
+	fmt.Printf("event: %v\n", event)
+
+	data := event["data"].(map[string]interface{})
+	fmt.Printf("data: %v\n", data)
+
+	body := data["body"]
+	fmt.Printf("body: %v\n", body)
+
+	return "hello world! 你好，世界!", nil
 }
